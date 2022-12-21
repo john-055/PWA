@@ -11,6 +11,9 @@ const CACHE_INMUTABLE_NAME = "pwa-inmutable-v1";
 const APP_SHELL = [
     "/",
     "index.html",
+    "acerca.html",
+    "comentario.html",
+    "contacto.html",
     "img/img5.jpg",
     "img/img2.jpg",
     "img/img3.jfif",
@@ -19,11 +22,6 @@ const APP_SHELL = [
     "index2.html",
     "css/style.css",
     "img/favicon.ico",
-    "img/avatars/gohan.jpg",
-    "img/avatars/goku.jpg",
-    "img/avatars/piccolo.jpg",
-    "img/avatars/trunks.jpg",
-    "img/avatars/vegeta.jpg",
     "js/app.js",
     "js/sw-utils.js",
     "js/sw-db.js",
@@ -90,7 +88,7 @@ self.addEventListener("fetch", (evento) => {
                 return fetch(evento.request).then((newRes) => {
                     return actualizaCache(CACHE_DYNAMIC_NAME, evento.request, newRes);
                 });
-            }
+            } 
     });
     }
 
@@ -99,81 +97,10 @@ self.addEventListener("fetch", (evento) => {
 
 
 self.addEventListener("sync", evento => {
-    //console.log("SW: Sync");
+    console.log("Sw: sync");
 
-    if( evento.tag === "nuevo-mensaje"){
+    if(evento.tag == "nuevo-mensaje"){
         const respuesta = enviarMensajes();
-        evento.waitUntil( respuesta );
+        evento.waitUntil(respuesta);
     }
-} );
-
-// NOTIFICACIONES
-
-self.addEventListener('push', e => {
-
-    const data = JSON.parse( e.data.text() );
-
-    const title = data.titulo;
-    const options = {
-        body: data.cuerpo,       
-        icon: `img/avatars/${ data.usuario }.jpg`,
-        badge: 'img/favicon.ico',
-        image: 'https://as01.epimg.net/meristation/imagenes/2022/09/09/reportajes/1662739276_405887_1662795061_noticia_normal_recorte1.jpg',
-        vibrate: [125,75,125,275,200,275,125,75,125,275,200,600,200,600],
-        openUrl: '/',
-        data: {            
-            url: '/',
-            id: data.usuario
-        },
-        // accciones personalizadas: editar, eliminar o lo que se requiera
-        actions: [
-            {
-                action: 'goku-action',
-                title: 'Goku',
-                icon: 'img/avatars/goku.jpg'
-            },
-            {
-                action: 'vegeta-action',
-                title: 'Vegeta',
-                icon: 'img/avatars/vegeta.jpg'
-            }
-        ]
-    };
-
-    e.waitUntil( self.registration.showNotification( title, options) );
-});
-
-
-// Evento para cerrar la notificacion
-self.addEventListener('notificationclose', e => {
-    console.log('Notificación cerrada', e);
-});
-
-// Evento cuando se da clic sobre la notificacion
-self.addEventListener('notificationclick', e => {
-    // Para tener una mejor refrencia a las opcion de las notificaciones
-    const notificacion = e.notification;
-    const accion = e.action;
-
-    console.log({ notificacion, accion });
-
-    // obtiene todas las pestañas abiertas en el navegador
-    const respuesta = clients.matchAll()
-        .then( clientes => {
-
-            let cliente = clientes.find( c => {
-                return c.visibilityState === 'visible';
-            });
-
-            if ( cliente !== undefined ) {
-                cliente.navigate( notificacion.data.url );
-                cliente.focus();
-            } else {
-                clients.openWindow( notificacion.data.url );
-            }
-
-            return notificacion.close();
-        });
-
-    e.waitUntil( respuesta );
 });

@@ -24,22 +24,18 @@ function verificarCache(staticCache, req, APP_SHELL_INMUTABLE) {
 
 function manejarPeticionesApi(nombreCache, req){
 
-    if ( (req.url.indexOf('/api/key') >= 0 ) || req.url.indexOf('/api/subscribe') >= 0 ) {
-
-        return fetch( req );
-
-    }else if(req.clone().method === "POST"){
-
-        if( self.registration.sync ){
-            return req.clone().text().then(resp => {
+    if(req.clone().method === "POST"){
+        if(self.registration.sync){
+            return  req.clone().text().then(resp => {
                 console.log(resp);
-
+    
                 const obj = JSON.parse( resp );
-                return guardarMensaje(obj);
+               return guardarMensaje(obj);
             });
         }else{
             return fetch(req);
         }
+        
     }else{
 
         return fetch( req )
