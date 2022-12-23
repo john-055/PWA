@@ -11,22 +11,15 @@ const CACHE_INMUTABLE_NAME = "pwa-inmutable-v1";
 const APP_SHELL = [
     "/",
     "index.html",
-    "acerca.html",
-    "comentario.html",
-    "contacto.html",
-    "img/img5.jpg",
-    "img/img2.jpg",
-    "img/img3.jfif",
-    "img/img4.png",
-    "js/scripts.js",
-    "index2.html",
     "css/style.css",
     "img/favicon.ico",
     "js/app.js",
     "js/sw-utils.js",
     "js/sw-db.js",
     "js/camara-class.js",
-
+    "img/img5.jpg",
+    "js/push",
+    "comentario.html"
 ];
 
 const APP_SHELL_INMUTABLE = [
@@ -36,10 +29,7 @@ const APP_SHELL_INMUTABLE = [
     "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css",
     "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js",
     "js/pouchdb-7.3.1.min.js",
-    "https://cdn.startbootstrap.com/sb-forms-latest.js",
-    "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js",
-    "https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i",
-    "https://fonts.googleapis.com/css?family=Varela+Round"
+    "js/push.min.js"
 ];
 
 self.addEventListener("install", (evento) => {
@@ -88,19 +78,18 @@ self.addEventListener("fetch", (evento) => {
                 return fetch(evento.request).then((newRes) => {
                     return actualizaCache(CACHE_DYNAMIC_NAME, evento.request, newRes);
                 });
-            } 
+            }
     });
     }
 
     evento.respondWith(respuesta);
 });
 
-
 self.addEventListener("sync", evento => {
-    console.log("Sw: sync");
+    console.log("SW: sync");
 
-    if(evento.tag == "nuevo-mensaje"){
+    if( evento.tag === "nuevo-mensaje"){
         const respuesta = enviarMensajes();
-        evento.waitUntil(respuesta);
+        evento.waitUntil( respuesta );
     }
 });

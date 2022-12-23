@@ -3,16 +3,7 @@ const router = express.Router();
 const push = require('./push');
 
 const mensajes = [
-    {
-        _id : "1",
-        user: "Nuevo Ususario",
-        mensaje : "Comentario numero uno"
-    },
-    {
-        _id : "2",
-        user: "Nuevo Usuario",
-        mensaje : "Comentario numero dos"
-    }
+    
 ];
 
 router.get( "/" , (req, resp) =>{

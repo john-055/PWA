@@ -1,0 +1,32 @@
+{
+    "short_name": "JonathanPWA",
+    "id":"index.html",
+    "name": "Proyecto PWA",
+    "start_url": "index.html",
+    "background_color": "#FE7600",
+    "theme_color": "#FE7600",
+    "display": "standalone",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "img/icons/88.png",
+            "type": "image/png",
+            "sizes": "88x88"
+        },
+        {
+            "src": "img/icons/144.png",
+            "type": "image/png",
+            "sizes": "144x144"
+        },
+        {
+            "src": "img/icons/196.png",
+            "type": "image/png",
+            "sizes": "196x196"
+        },
+        {
+            "src": "img/icons/512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+      ]
+  }
